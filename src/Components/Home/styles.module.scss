@@ -103,9 +103,10 @@
     }
   }
   .carousel_main {
-    min-height: 240px;
-    background: #eee;
-    border-radius: 6px;
+    min-height: 500px;
+    background: #f0f0f0;
+    border: 2px solid #3d3d3d;
+    border-radius: 0;
     margin-bottom: 0;
     .carousel {
       height: 100%;
@@ -117,7 +118,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
+    min-height: 480px;
     background: #eee;
     border-radius: 8px;
   }
@@ -134,10 +135,10 @@
     text-align: center;
   }
   .carousel_side {
-    min-height: 240px;
-    background: #eee;
-    border-radius: 6px;
-
+    min-height: 500px;
+    background: #f0f0f0;
+    border: 2px solid #3d3d3d;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -163,10 +164,7 @@
   }
   .country_img_placeholder {
     width: 48px;
-    height: 48px;
-    background: #eee;
-    border-radius: 4px;
-    margin-right: 16px;
+    height: 46px;
   }
   .country_name {
     font-family: var(--font-noto-sans), sans-serif;
@@ -231,8 +229,31 @@
     padding: 27px 0 11px 0;
   }
 
+  :global .carousel-indicators [data-bs-target] {
+    width: 12px;
+    height: 12px;
+    background: #fef7ff;
+    border-radius: 50%;
+    opacity: 1;
+    border: none;
+  }
+
+  :global .carousel-indicators .active {
+    background-color: #1d1b20;
+  }
+
+  :global .carousel-control-next,
+  :global .carousel-control-prev {
+    top: auto;
+  }
+
   @media (min-width: 768px) {
     padding: 45px;
+
+    .country_img_placeholder {
+      width: 127px;
+      height: 96px;
+    }
 
     .welcome_divider {
       padding: 57px 0 38px 0;

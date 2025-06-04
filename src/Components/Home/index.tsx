@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar } from "react-bootstrap";
 import {
   Container,
@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { FaGoogle, FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import styles from "./styles.module.scss";
+import Image from "next/image";
 
 const tabs = ["All", "Asia", "Europe"];
 const countries = [
@@ -26,11 +27,45 @@ const carouselItems = [
 
 const HomeCard = () => {
   const [activeTab, setActiveTab] = useState("All");
+  const [countries, setCountries] = useState<
+    { name: string; region: string; flag: string }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const [initialCount, setInitialCount] = useState(12);
+
+  // Detect screen size for initial count
+  useEffect(() => {
+    const updateInitialCount = () => {
+      if (window.innerWidth < 768) {
+        setInitialCount(8);
+      } else {
+        setInitialCount(12);
+      }
+    };
+    updateInitialCount();
+    window.addEventListener("resize", updateInitialCount);
+    return () => window.removeEventListener("resize", updateInitialCount);
+  }, []);
+
+  useEffect(() => {
+    fetch("https://restcountries.com/v2/all?fields=name,region,flag")
+      .then((res) => res.json())
+      .then((data) => {
+        setCountries(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   const filteredCountries =
     activeTab === "All"
       ? countries
       : countries.filter((c) => c.region === activeTab);
+
+  const visibleCountries = showAll
+    ? filteredCountries
+    : filteredCountries.slice(0, initialCount);
 
   return (
     <Container fluid className={styles.home_container}>
@@ -94,26 +129,48 @@ const HomeCard = () => {
       </Row>
 
       <Row className={styles.countries_grid}>
-        {filteredCountries.map((country, idx) => (
-          <Col md={6} key={idx} className="mb-3">
-            <Card className={styles.country_card}>
-              <Card.Body className="d-flex align-items-center">
-                <div className={styles.country_img_placeholder}></div>
-                <div>
-                  <div className={styles.country_name}>{country.name}</div>
-                  <div className={styles.country_region}>{country.region}</div>
-                </div>
-              </Card.Body>
-            </Card>
+        {loading ? (
+          <Col xs={12} className="text-center">
+            Loading...
           </Col>
-        ))}
+        ) : (
+          visibleCountries.map((country, idx) => (
+            <Col md={6} key={idx} className="mb-3">
+              <Card className={styles.country_card}>
+                <Card.Body className="d-flex align-items-center gap-3">
+                  <Image
+                    src={country.flag}
+                    alt={country.name}
+                    className={styles.country_img_placeholder}
+                    width={127}
+                    height={96}
+                    layout="fixed"
+                  />
+                  <div>
+                    <div className={styles.country_name}>{country.name}</div>
+                    <div className={styles.country_region}>
+                      {country.region}
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        )}
       </Row>
 
-      <Row className="justify-content-center">
-        <Col xs="auto">
-          <Button className={styles.load_more_btn}>Load more</Button>
-        </Col>
-      </Row>
+      {!showAll && filteredCountries.length > initialCount && (
+        <Row className="justify-content-center">
+          <Col xs="auto">
+            <Button
+              className={styles.load_more_btn}
+              onClick={() => setShowAll(true)}
+            >
+              Load more
+            </Button>
+          </Col>
+        </Row>
+      )}
 
       <footer className={styles.footer}>
         <div className={styles.socials}>
