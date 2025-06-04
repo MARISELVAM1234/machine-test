@@ -14,7 +14,11 @@ function PublicRoute<P extends object>(Component: React.ComponentType<P>) {
         const loginData =
           localStorage.getItem("loginData") ||
           sessionStorage.getItem("loginData");
-        if (!loginData || Object.keys(JSON.parse(loginData)).length > 0) {
+        if (
+          loginData &&
+          loginData !== null &&
+          Object.keys(JSON.parse(loginData)).length > 0
+        ) {
           router.push("/home");
           setIsAuthenticated(false);
         } else {

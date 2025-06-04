@@ -108,16 +108,36 @@ const Login = () => {
         </div>
         <div className={styles.social_icons}>
           <div className={styles.icon_btn}>
-            <img src="/icons/google.svg" alt="Google" />
+            <Image
+              src="/icons/google.svg"
+              alt="Google"
+              width={40}
+              height={40}
+            />
           </div>
           <div className={styles.icon_btn}>
-            <img src="/icons/facebook.svg" alt="Facebook" />
+            <Image
+              src="/icons/facebook.svg"
+              alt="Facebook"
+              width={40}
+              height={40}
+            />
           </div>
           <div className={styles.icon_btn}>
-            <img src="/icons/linkedin.svg" alt="LinkedIn" />
+            <Image
+              src="/icons/linkedin.svg"
+              alt="LinkedIn"
+              width={40}
+              height={40}
+            />
           </div>
           <div className={styles.icon_btn}>
-            <img src="/icons/twitter.svg" alt="Twitter" />
+            <Image
+              src="/icons/twitter.svg"
+              alt="Twitter"
+              width={40}
+              height={40}
+            />
           </div>
         </div>
       </div>
