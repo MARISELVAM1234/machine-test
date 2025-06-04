@@ -33,6 +33,7 @@ const HomeCard = () => {
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
   const [initialCount, setInitialCount] = useState(12);
+  const [regions, setRegions] = useState<string[]>([]);
 
   // Detect screen size for initial count
   useEffect(() => {
@@ -53,10 +54,18 @@ const HomeCard = () => {
       .then((res) => res.json())
       .then((data) => {
         setCountries(data);
+        const uniqueRegions = Array.from(
+          new Set(data.map((c: { region: string }) => c.region).filter(Boolean))
+        ) as string[];
+        setRegions(uniqueRegions);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    setShowAll(false);
+  }, [activeTab]);
 
   const filteredCountries =
     activeTab === "All"
@@ -69,23 +78,39 @@ const HomeCard = () => {
 
   return (
     <Container fluid className={styles.home_container}>
-      <Navbar expand="md" className="pt-3 pb-2  bg-white">
+      <Navbar expand="md" className="pt-3 pb-2 bg-white">
         <Navbar.Brand className={styles.logo}>Countries</Navbar.Brand>
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar" className="justify-content-end">
-          <Nav variant="tabs" activeKey={activeTab} className={styles.tabs}>
-            {tabs.map((tab) => (
-              <Nav.Item key={tab}>
+          <div className={styles.tabs_scroll}>
+            <Nav
+              variant="tabs"
+              activeKey={activeTab}
+              className={styles.tabs}
+              as="div"
+            >
+              <Nav.Item>
                 <Nav.Link
-                  eventKey={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={activeTab === tab ? styles.active : ""}
+                  eventKey="All"
+                  onClick={() => setActiveTab("All")}
+                  className={activeTab === "All" ? styles.active : ""}
                 >
-                  {tab}
+                  All
                 </Nav.Link>
               </Nav.Item>
-            ))}
-          </Nav>
+              {regions.map((region) => (
+                <Nav.Item key={region}>
+                  <Nav.Link
+                    eventKey={region}
+                    onClick={() => setActiveTab(region)}
+                    className={activeTab === region ? styles.active : ""}
+                  >
+                    {region}
+                  </Nav.Link>
+                </Nav.Item>
+              ))}
+            </Nav>
+          </div>
         </Navbar.Collapse>
       </Navbar>
 
@@ -99,17 +124,20 @@ const HomeCard = () => {
             <Col md={9}>
               <Card className={styles.carousel_main}>
                 <Carousel indicators={true} controls={true}>
-                  {carouselItems.map((item, idx) => (
+                  {filteredCountries?.slice(0, 6).map((country, idx) => (
                     <Carousel.Item key={idx}>
                       <div className={styles.carousel_img_wrap}>
-                        <img
-                          src={item.img}
-                          alt={item.title}
+                        <Image
+                          src={country.flag}
+                          alt={country.name}
                           className={styles.carousel_img}
+                          width={120}
+                          height={120}
+                          layout="fixed"
                         />
-                        <div className={styles.carousel_caption}>
-                          {item.title}
-                        </div>
+                        {/* <div className={styles.carousel_caption}>
+                          {country.name}
+                        </div> */}
                       </div>
                     </Carousel.Item>
                   ))}
@@ -120,7 +148,6 @@ const HomeCard = () => {
               <Card className={styles.carousel_side}>
                 <Card.Body className="d-flex flex-column align-items-center justify-content-center">
                   <div className={styles.feature_img}></div>
-                  <div className={styles.feature_title}>Feature</div>
                 </Card.Body>
               </Card>
             </Col>

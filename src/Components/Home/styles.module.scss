@@ -123,8 +123,8 @@
     border-radius: 8px;
   }
   .carousel_img {
-    width: 80px;
-    height: 80px;
+    width: 47px;
+    height: 47px;
     object-fit: contain;
     margin-bottom: 8px;
   }
@@ -133,6 +133,7 @@
     font-weight: 600;
     color: #222;
     text-align: center;
+    font-family: var(--font-noto-sans);
   }
   .carousel_side {
     min-height: 500px;
@@ -144,17 +145,13 @@
     justify-content: center;
   }
   .feature_img {
-    width: 48px;
-    height: 48px;
+    width: 47px;
+    height: 47px;
     background: #ddd;
     border-radius: 8px;
     margin-bottom: 12px;
   }
-  .feature_title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #888;
-  }
+
   .country_card {
     border: 2px solid #3e3e3e;
     border-radius: 4px;
@@ -253,6 +250,12 @@
     .country_img_placeholder {
       width: 127px;
       height: 96px;
+    }
+
+    .carousel_img,
+    .feature_img {
+      width: 120px;
+      height: 120px;
     }
 
     .welcome_divider {
