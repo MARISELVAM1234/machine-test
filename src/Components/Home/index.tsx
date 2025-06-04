@@ -27,18 +27,28 @@ import youtube from "../../../public/assets/youtube.png";
 import rightArrow from "../../../public/assets/right-arrow.png";
 import leftArrow from "../../../public/assets/left-arrow.png";
 
-const HomeCard = () => {
-  const [activeTab, setActiveTab] = useState("All");
-  const [countries, setCountries] = useState<
-    { name: string; region: string; flag: string }[]
-  >([]);
-  const [loading, setLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
-  const [navbarExpanded, setNavbarExpanded] = useState(false);
-  const [initialCount, setInitialCount] = useState(12);
-  const [regions, setRegions] = useState<string[]>([]);
+interface countryType {
+  name: string;
+  region: string;
+  flag: string;
+}
 
-  // Detect screen size for initial count
+const HomeCard = () => {
+  const [activeTab, setActiveTab] = useState<string>("");
+  const [countries, setCountries] = useState<countryType[]>([]);
+  const [filteredCountries, setFilteredCountries] = useState<countryType[]>([]);
+  const [visibleCountries, setVisibleCountries] = useState<countryType[]>([]);
+  const [regions, setRegions] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [showAll, setShowAll] = useState<boolean>(false);
+  const [navbarExpanded, setNavbarExpanded] = useState<boolean>(false);
+  const [initialCount, setInitialCount] = useState<number>(12);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  const handleSelect = (selectedIndex: number) => {
+    setActiveIndex(selectedIndex);
+  };
+
   useEffect(() => {
     const updateInitialCount = () => {
       if (window.innerWidth < 768) {
@@ -52,6 +62,7 @@ const HomeCard = () => {
     return () => window.removeEventListener("resize", updateInitialCount);
   }, []);
 
+  // fetch countries data
   useEffect(() => {
     fetch("https://restcountries.com/v2/all?fields=name,region,flag")
       .then((res) => res.json())
@@ -62,22 +73,25 @@ const HomeCard = () => {
         ) as string[];
         setRegions(uniqueRegions);
         setLoading(false);
+        setActiveTab("All");
       })
       .catch(() => setLoading(false));
   }, []);
 
   useEffect(() => {
     setShowAll(false);
+    const filteredCountrie =
+      activeTab === "All"
+        ? countries
+        : countries.filter((c) => c.region === activeTab);
+
+    const visibleCountrie = showAll
+      ? filteredCountrie
+      : filteredCountrie.slice(0, initialCount);
+    setVisibleCountries(visibleCountrie);
+    setFilteredCountries(filteredCountrie);
+    setActiveIndex(0);
   }, [activeTab]);
-
-  const filteredCountries =
-    activeTab === "All"
-      ? countries
-      : countries.filter((c) => c.region === activeTab);
-
-  const visibleCountries = showAll
-    ? filteredCountries
-    : filteredCountries.slice(0, initialCount);
 
   return (
     <>
@@ -153,6 +167,8 @@ const HomeCard = () => {
                     <Carousel
                       indicators={true}
                       controls={true}
+                      activeIndex={activeIndex}
+                      onSelect={handleSelect}
                       prevIcon={
                         <span className={styles.arrow_icon}>
                           {" "}

@@ -52,6 +52,12 @@
     border-radius: 0;
   }
 
+  :global .invalid-feedback {
+    font-family: var(--font-noto-sans), sans-serif;
+    font-weight: 600;
+    margin: 0;
+  }
+
   :global .form-control:focus,
   :global .form-check-input:focus {
     box-shadow: 0 0 0 0.25rem #3e3e3e17;

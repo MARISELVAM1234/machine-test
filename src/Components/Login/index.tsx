@@ -16,6 +16,7 @@ import linkedin from "../../../public/assets/likedin.png";
 import google from "../../../public/assets/google.png";
 import facebook from "../../../public/assets/facebook.png";
 
+// regex for validation
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex =
   /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
@@ -28,9 +29,10 @@ const Login = () => {
     emailOrUsername?: string;
     password?: string;
   }>({});
-  
+
   const router = useRouter();
 
+  // validate form inputs
   const validate = () => {
     const newErrors: { emailOrUsername?: string; password?: string } = {};
 
@@ -54,6 +56,7 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
@@ -64,6 +67,34 @@ const Login = () => {
         sessionStorage.setItem("loginData", userData);
       }
       router.push("/home");
+    }
+  };
+
+  // handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if (name === "emailOrUsername") {
+      setEmailOrUsername(value);
+      let error = "";
+      if (!value.trim()) {
+        error = "Username or email is required";
+      } else if (!emailRegex.test(value) && value.includes("@")) {
+        error = "Enter a valid email address";
+      }
+      setErrors((prev) => ({ ...prev, emailOrUsername: error }));
+    }
+
+    if (name === "password") {
+      setPassword(value);
+      let error = "";
+      if (!value) {
+        error = "Password is required";
+      } else if (!passwordRegex.test(value)) {
+        error =
+          "Password must be at least 8 characters, include 1 capital letter, 1 number, and 1 symbol";
+      }
+      setErrors((prev) => ({ ...prev, password: error }));
     }
   };
 
@@ -80,8 +111,9 @@ const Login = () => {
             <Form.Control
               type="text"
               placeholder="Username or email"
+              name="emailOrUsername"
               value={emailOrUsername}
-              onChange={(e) => setEmailOrUsername(e.target.value)}
+              onChange={handleChange}
               isInvalid={!!errors.emailOrUsername}
             />
             <Form.Control.Feedback type="invalid">
@@ -92,9 +124,10 @@ const Login = () => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Control
               type="password"
+              name="password"
               placeholder="Password"
+              onChange={handleChange}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
               isInvalid={!!errors.password}
             />
             <Form.Control.Feedback type="invalid">
