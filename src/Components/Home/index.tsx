@@ -34,10 +34,8 @@ interface countryType {
 }
 
 const HomeCard = () => {
-  const [activeTab, setActiveTab] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>("All");
   const [countries, setCountries] = useState<countryType[]>([]);
-  const [filteredCountries, setFilteredCountries] = useState<countryType[]>([]);
-  const [visibleCountries, setVisibleCountries] = useState<countryType[]>([]);
   const [regions, setRegions] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [showAll, setShowAll] = useState<boolean>(false);
@@ -73,25 +71,23 @@ const HomeCard = () => {
         ) as string[];
         setRegions(uniqueRegions);
         setLoading(false);
-        setActiveTab("All");
       })
       .catch(() => setLoading(false));
   }, []);
 
   useEffect(() => {
     setShowAll(false);
-    const filteredCountrie =
-      activeTab === "All"
-        ? countries
-        : countries.filter((c) => c.region === activeTab);
-
-    const visibleCountrie = showAll
-      ? filteredCountrie
-      : filteredCountrie.slice(0, initialCount);
-    setVisibleCountries(visibleCountrie);
-    setFilteredCountries(filteredCountrie);
     setActiveIndex(0);
   }, [activeTab]);
+
+  const filteredCountries =
+    activeTab === "All"
+      ? countries
+      : countries.filter((c) => c.region === activeTab);
+
+  const visibleCountries = showAll
+    ? filteredCountries
+    : filteredCountries.slice(0, initialCount);
 
   return (
     <>
