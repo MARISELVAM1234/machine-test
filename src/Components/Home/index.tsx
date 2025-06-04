@@ -13,18 +13,6 @@ import { FaGoogle, FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 
-const tabs = ["All", "Asia", "Europe"];
-const countries = [
-  { name: "Afghanistan", region: "Asia" },
-  { name: "Albania", region: "Europe" },
-];
-
-const carouselItems = [
-  { title: "India", img: "/images/india.png" },
-  { title: "France", img: "/images/france.png" },
-  { title: "Japan", img: "/images/japan.png" },
-];
-
 const HomeCard = () => {
   const [activeTab, setActiveTab] = useState("All");
   const [countries, setCountries] = useState<
