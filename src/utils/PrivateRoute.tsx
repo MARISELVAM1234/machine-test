@@ -23,7 +23,7 @@ function PrivateRoute<P extends object>(Component: React.ComponentType<P>) {
       }
     }, [router]);
 
-    if (isAuthenticated === null) return null; // or a loading spinner
+    if (isAuthenticated === null) return null;
 
     if (!isAuthenticated) return null;
 

@@ -28,7 +28,6 @@
     letter-spacing: 0%;
     color: #3d3d3d;
     border: none;
-    border-bottom: 1px solid #3d3d3d;
   }
   :global .navbar-toggler:focus {
     box-shadow: none;
@@ -38,8 +37,8 @@
     border: none;
   }
 
-  :global .nav-tabs .nav-link.active {
-    padding: 0 0 7px 0;
+  :global .nav-tabs .nav-link {
+    padding: 0 0 10px 0;
   }
 
   :global .nav-tabs {
@@ -103,7 +102,7 @@
     }
   }
   .carousel_main {
-    min-height: 500px;
+    min-height: 200px;
     background: #f0f0f0;
     border: 2px solid #3d3d3d;
     border-radius: 0;
@@ -113,12 +112,34 @@
     }
   }
 
+  :global .carousel-control-next,
+  :global .carousel-control-prev {
+    opacity: 1;
+    width: fit-content;
+    color: transparent;
+  }
+  :global .carousel-control-next {
+    right: calc(50% - 80px);
+  }
+
+  :global .carousel-control-prev {
+    left: calc(50% - 80px);
+  }
+
+  .arrow_icon {
+    color: #1d1b20;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .carousel_img_wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 480px;
+    min-height: 184px;
     background: #eee;
     border-radius: 8px;
   }
@@ -126,7 +147,6 @@
     width: 47px;
     height: 47px;
     object-fit: contain;
-    margin-bottom: 8px;
   }
   .carousel_caption {
     font-size: 18px;
@@ -135,8 +155,16 @@
     text-align: center;
     font-family: var(--font-noto-sans);
   }
+  .carousel_row {
+    @media (max-width: 768px) {
+      gap: 20px;
+    }
+    @media (min-width: 768px) {
+      gap: 0;
+    }
+  }
   .carousel_side {
-    min-height: 500px;
+    min-height: 150px;
     background: #f0f0f0;
     border: 2px solid #3d3d3d;
     border-radius: 0;
@@ -149,7 +177,6 @@
     height: 47px;
     background: #ddd;
     border-radius: 8px;
-    margin-bottom: 12px;
   }
 
   .country_card {
@@ -192,6 +219,7 @@
     font-size: 16px;
     line-height: 100%;
     letter-spacing: 0%;
+    margin: 10px 0 0 0;
   }
   .footer {
     text-align: center;
@@ -227,12 +255,19 @@
   }
 
   :global .carousel-indicators [data-bs-target] {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     background: #fef7ff;
     border-radius: 50%;
     opacity: 1;
     border: none;
+  }
+
+  :global .carousel-indicators {
+    margin: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: fit-content;
   }
 
   :global .carousel-indicators .active {
@@ -247,6 +282,17 @@
   @media (min-width: 768px) {
     padding: 45px;
 
+    .carousel_side {
+      min-height: 500px;
+    }
+
+    .carousel_main {
+      min-height: 500px;
+    }
+
+    .carousel_img_wrap {
+      min-height: 470px;
+    }
     .country_img_placeholder {
       width: 127px;
       height: 96px;
@@ -299,6 +345,23 @@
 
     :global .navbar-brand {
       font-size: 24px;
+    }
+    :global .nav-tabs {
+      gap: 20px;
+    }
+
+    :global .nav-tabs .nav-link {
+      padding: 0 0 7px 0;
+    }
+
+    :global .nav-tabs .nav-link.active,
+    :global .nav-link {
+      border-bottom: 2px solid #3d3d3d;
+    }
+
+    :global .carousel-indicators [data-bs-target] {
+      width: 12px;
+      height: 12px;
     }
   }
 }

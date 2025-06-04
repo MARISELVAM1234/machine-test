@@ -1,10 +1,20 @@
+// styles
+import styles from "./styles.module.scss";
+
+// packages and hooks
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import styles from "./styles.module.scss";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+
+// assets
 import loginImg from "../../../public/assets/login-img.png";
+import twitter from "../../../public/assets/twitter.png";
+import linkedin from "../../../public/assets/likedin.png";
+import google from "../../../public/assets/google.png";
+import facebook from "../../../public/assets/facebook.png";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex =
@@ -18,6 +28,7 @@ const Login = () => {
     emailOrUsername?: string;
     password?: string;
   }>({});
+  
   const router = useRouter();
 
   const validate = () => {
@@ -108,37 +119,17 @@ const Login = () => {
         </div>
         <div className={styles.social_icons}>
           <div className={styles.icon_btn}>
-            <Image
-              src="/icons/google.svg"
-              alt="Google"
-              width={40}
-              height={40}
-            />
+            <Image src={google} alt="Google" width={48} height={48} />
           </div>
           <div className={styles.icon_btn}>
-            <Image
-              src="/icons/facebook.svg"
-              alt="Facebook"
-              width={40}
-              height={40}
-            />
+            <Image src={facebook} alt="Facebook" width={48} height={48} />
           </div>
           <div className={styles.icon_btn}>
-            <Image
-              src="/icons/linkedin.svg"
-              alt="LinkedIn"
-              width={40}
-              height={40}
-            />
+            <Image src={linkedin} alt="LinkedIn" width={48} height={48} />
           </div>
-          <div className={styles.icon_btn}>
-            <Image
-              src="/icons/twitter.svg"
-              alt="Twitter"
-              width={40}
-              height={40}
-            />
-          </div>
+          <Link href="#" className={styles.icon_btn}>
+            <Image src={twitter} alt="Twitter" width={48} height={48} />
+          </Link>
         </div>
       </div>
       <div className={styles.login_img}>

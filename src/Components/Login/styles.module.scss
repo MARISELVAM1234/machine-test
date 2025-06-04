@@ -1,6 +1,6 @@
 .login_container {
   padding: 47px;
-  min-height: 100vh;
+  min-height: 100dvh;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -138,7 +138,6 @@
   .icon_btn {
     width: 48px;
     height: 48px;
-    border: 2px solid #3e3e3e;
     border-radius: 50%;
     background: #fff;
     display: flex;
@@ -147,11 +146,6 @@
     transition: box-shadow 0.2s;
     cursor: pointer;
     padding: 0;
-
-    img {
-      width: 24px;
-      height: 24px;
-    }
 
     &:hover {
       box-shadow: 0 0 0 2px #eee;
