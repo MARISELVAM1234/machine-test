@@ -11,7 +11,8 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Machine test",
+  title: "Login",
+  description: "Login to your account",
 };
 
 export default function RootLayout({
